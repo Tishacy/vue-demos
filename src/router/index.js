@@ -17,6 +17,11 @@ export default new Router({
       path: '/hello-world',
       name: 'HelloWorld',
       component: HelloWorld
+    },
+    {
+      path: '/demo/element-ui',
+      name: 'ElementUI',
+      component: () => import('@/pages/demo/element-ui/ElementUI')
     }
   ]
 })
