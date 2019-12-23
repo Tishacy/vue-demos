@@ -16,7 +16,7 @@ export default {
   padding: 0;
   list-style: none;
   text-overflow: none;
-  /* font-size: 10px; */
-  font-family: Georgia, 'Times New Roman', Times, serif
+  font-size: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
 }
 </style>
