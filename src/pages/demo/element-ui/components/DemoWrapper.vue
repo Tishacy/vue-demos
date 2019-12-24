@@ -1,6 +1,8 @@
 <template>
     <div class="demo-wrapper" :title="title">
-        <h1 class="title">{{ title }}</h1>
+        <h1 class="title"
+            :style="{'font-size': titleSize}">{{ title }}</h1>
+        <slot name="demo-info"></slot>
         <slot name="demo-content"></slot>
     </div>
 </template>
@@ -14,6 +16,11 @@ export default {
             default () {
                 return 'Demo title'
             }
+        },
+        titleSize: {
+            default () {
+                return '16px'
+            }
         }
     }
 }
@@ -21,7 +28,6 @@ export default {
 
 <style lang="stylus" scoped>
     .demo-wrapper
-        width 100%
         min-height 10rem
         margin 2rem auto
         padding 2rem
@@ -33,7 +39,6 @@ export default {
             transition .2s
         .title
             margin-bottom 2rem
-            font-size 1.4rem
             color #555
             font-weight 600
 </style>

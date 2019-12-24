@@ -4,11 +4,15 @@
         <div class="content">
             <h1 class="title">{{ str }}{{ typeTag }}</h1>
             <ul class="repo-list">
-                <li class="repo-item" v-for="(item, i) in repos"
-                    :key="i">
+                <router-link 
+                    tag="li"
+                    class="repo-item" 
+                    v-for="(item, i) in repos"
+                    :key="i"
+                    to="/demo/element-ui">
                     {{ item.name }} : 
                     {{ item.desc }}
-                </li>
+                </router-link>
             </ul>
         </div>
     </div>
@@ -23,9 +27,9 @@ export default {
     data () {
         return {
             repos: [{
-                'name': 'vue-avatar',
+                'name': 'element-ui',
                 'url': 'https://eliep.github.io/vue-avatar/',
-                'desc': 'An avatar component for vue.js',
+                'desc': 'Element UI',
             },{
                 'name': 'vue-avatar',
                 'url': 'https://eliep.github.io/vue-avatar/',

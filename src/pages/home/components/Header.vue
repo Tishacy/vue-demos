@@ -30,17 +30,18 @@ export default {
             iconSrc,
         }
     }
-    
 }
 </script>
 
 <style lang="stylus" scoped>
     .header
+        z-index 1
         width 100%
         height 6rem
         background-color #223
         line-height 6rem
-        position relative
+        position fixed
+        top 0
         color #fff
         .header-left
             position absolute
@@ -61,5 +62,5 @@ export default {
             .header-title
                 font-size 1.4rem
                 font-family Arial, Helvetica, sans-serif
-                letter-spacing .5rem
+                letter-spacing 0.2rem
 </style>
