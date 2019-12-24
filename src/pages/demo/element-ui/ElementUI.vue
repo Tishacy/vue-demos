@@ -2,7 +2,7 @@
     <div>
         <home-header :title="title"></home-header>
         <div class="main">
-            <el-button-demo></el-button-demo>
+            <button-demo></button-demo>
             <layout-demo></layout-demo>
             <container-demo></container-demo>
         </div>
@@ -11,7 +11,7 @@
 
 <script>
 import HomeHeader from '../../home/components/Header'
-import ElButtonDemo from './components/ElButton'
+import ButtonDemo from './components/Button'
 import LayoutDemo from './components/Layout'
 import ContainerDemo from './components/Container'
 
@@ -24,7 +24,7 @@ export default {
     },
     components: {
         HomeHeader,
-        ElButtonDemo,
+        ButtonDemo,
         LayoutDemo,
         ContainerDemo
     }
