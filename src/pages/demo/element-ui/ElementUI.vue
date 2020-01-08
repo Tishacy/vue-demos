@@ -5,6 +5,7 @@
             <button-demo></button-demo>
             <layout-demo></layout-demo>
             <container-demo></container-demo>
+            <form-demo></form-demo>
         </div>
     </div>
 </template>
@@ -14,6 +15,7 @@ import HomeHeader from '../../home/components/Header'
 import ButtonDemo from './components/Button'
 import LayoutDemo from './components/Layout'
 import ContainerDemo from './components/Container'
+import FormDemo from './components/Form'
 
 export default {
     name: 'ElementUI',
@@ -26,13 +28,15 @@ export default {
         HomeHeader,
         ButtonDemo,
         LayoutDemo,
-        ContainerDemo
+        ContainerDemo,
+        FormDemo
     }
 }
 </script>
 
 <style lang="stylus" scoped>
     .main
-        width 60%
+        min-width 500px
+        width 50%
         margin 8rem auto
 </style>

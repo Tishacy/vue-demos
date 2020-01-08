@@ -104,7 +104,7 @@ export default {
 
 <style lang="stylus" scoped>
     .content
-        margin 3rem auto
+        margin 8rem auto
         max-width 50rem
         min-width 40rem
         .title
