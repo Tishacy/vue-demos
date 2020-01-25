@@ -1,17 +1,15 @@
 <template>
-    <div>
-        <home-header :title="title"></home-header>
-        <div class="main">
-            <button-demo></button-demo>
-            <layout-demo></layout-demo>
-            <container-demo></container-demo>
-            <form-demo></form-demo>
-        </div>
+    <div class="main">
+        页面重复展示次数：{{ count }} <br>
+        api返回结果：{{ apiContent }}
+        <button-demo></button-demo>
+        <layout-demo></layout-demo>
+        <container-demo></container-demo>
+        <form-demo></form-demo>
     </div>
 </template>
 
 <script>
-import HomeHeader from '../../home/components/Header'
 import ButtonDemo from './components/Button'
 import LayoutDemo from './components/Layout'
 import ContainerDemo from './components/Container'
@@ -21,11 +19,24 @@ export default {
     name: 'ElementUI',
     data () {
         return {
-            title: 'Element UI Demo'
+            title: 'Element UI Demo',
         }
     },
+    computed: {
+        count () {
+            return this.$store.state.count
+        },
+        apiContent () {
+            return this.$store.state.apiContent
+        }
+    },
+    mounted () {
+        this.$store.commit('increment');
+        this.$store.dispatch('request')
+        console.log(this.$store.state.count);
+        console.log(this.$route.params)
+    },
     components: {
-        HomeHeader,
         ButtonDemo,
         LayoutDemo,
         ContainerDemo,
@@ -37,6 +48,6 @@ export default {
 <style lang="stylus" scoped>
     .main
         min-width 500px
-        width 50%
-        margin 8rem auto
+        width 70%
+        margin 0 auto
 </style>

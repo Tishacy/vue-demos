@@ -10,18 +10,35 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
+      name: 'home',
       component: Home
     },
     {
       path: '/hello-world',
-      name: 'HelloWorld',
+      name: 'hello-world',
       component: HelloWorld
     },
     {
-      path: '/demo/element-ui',
-      name: 'ElementUI',
-      component: () => import('@/pages/demo/element-ui/ElementUI')
-    }
+      path: '/demo',
+      name: 'demo',
+      component: () => import('@/pages/demo/Demo'),
+      children: [
+        {
+          path: 'element-ui',
+          name: 'element-ui',
+          component: () => import('@/pages/demo/element-ui/ElementUI')
+        },
+        {
+          path: 'manage',
+          name: 'manage',
+          component: () => import('@/pages/demo/manage/Manage')
+        }
+      ]
+    },
+    // {
+    //   path: '/demo/element-ui',
+    //   name: 'element-ui',
+    //   component: () => import('@/pages/demo/element-ui/ElementUI')
+    // }
   ]
 })

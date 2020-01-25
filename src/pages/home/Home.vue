@@ -9,7 +9,7 @@
                     class="repo-item" 
                     v-for="(item, i) in repos"
                     :key="i"
-                    to="/demo/element-ui">
+                    :to="item.url">
                     {{ item.name }} : 
                     {{ item.desc }}
                 </router-link>
@@ -20,7 +20,7 @@
 
 <script>
 // when I don't wanna move you, just stop moving.
-import HomeHeader from './components/Header'
+import HomeHeader from '@/global/Header'
 
 export default {
     name: 'Home',
@@ -28,24 +28,12 @@ export default {
         return {
             repos: [{
                 'name': 'element-ui',
-                'url': 'https://eliep.github.io/vue-avatar/',
+                'url': '/demo/element-ui',
                 'desc': 'Element UI',
             },{
-                'name': 'vue-avatar',
-                'url': 'https://eliep.github.io/vue-avatar/',
-                'desc': 'An avatar component for vue.js',
-            },{
-                'name': 'vue-avatar',
-                'url': 'https://eliep.github.io/vue-avatar/',
-                'desc': 'An avatar component for vue.js',
-            },{
-                'name': 'vue-avatar',
-                'url': 'https://eliep.github.io/vue-avatar/',
-                'desc': 'An avatar component for vue.js',
-            },{
-                'name': 'vue-avatar',
-                'url': 'https://eliep.github.io/vue-avatar/',
-                'desc': 'An avatar component for vue.js',
+                'name': 'Manage',
+                'url': '/demo/manage',
+                'desc': '数据管理系统'
             }],
             title: 'DAVC',
             str: 'Demos of Awesome Vue Components',

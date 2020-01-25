@@ -40,7 +40,7 @@ export default {
         height 6rem
         background-color #223
         line-height 6rem
-        position fixed
+        position absolute
         top 0
         color #fff
         .header-left
