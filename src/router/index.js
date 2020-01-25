@@ -19,6 +19,11 @@ export default new Router({
       component: HelloWorld
     },
     {
+      path: '/manage',
+      name: 'manage',
+      component: () => import('@/pages/demo/manage/Manage')
+    },
+    {
       path: '/demo',
       name: 'demo',
       component: () => import('@/pages/demo/Demo'),

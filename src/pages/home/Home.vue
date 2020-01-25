@@ -32,7 +32,7 @@ export default {
                 'desc': 'Element UI',
             },{
                 'name': 'Manage',
-                'url': '/demo/manage',
+                'url': '/manage',
                 'desc': '数据管理系统'
             }],
             title: 'DAVC',
