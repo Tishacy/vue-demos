@@ -21,7 +21,25 @@ export default new Router({
     {
       path: '/manage',
       name: 'manage',
-      component: () => import('@/pages/demo/manage/Manage')
+      component: () => import('@/pages/demo/manage/Manage'),
+      redirect: '/manage/chart',
+      children: [
+        {
+          path: 'chart',
+          name: 'chart',
+          component: () => import('@/pages/demo/manage/components/Chart')
+        },
+        {
+          path: 'table',
+          name: 'table',
+          component: () => import('@/pages/demo/manage/components/Table')
+        },
+        {
+          path: 'imageList',
+          name: 'imageList',
+          component: () => import('@/pages/demo/manage/components/ImageList')
+        }
+      ]
     },
     {
       path: '/demo',
