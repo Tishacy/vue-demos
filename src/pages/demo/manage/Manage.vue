@@ -22,13 +22,16 @@
                 </el-menu>                
             </el-aside>
             <el-main>
-                <router-view></router-view>
+                <keep-alive>
+                    <router-view></router-view>
+                </keep-alive>
             </el-main>
         </el-container>
     </div>
 </template>
 
 <script>
+
 export default {
     name: "Manage",
     data () {
@@ -67,6 +70,4 @@ export default {
             padding 0 !important
             .link
                 padding 0 2rem
-
-        
 </style>
