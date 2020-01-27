@@ -71,6 +71,7 @@
                 <el-button type="primary" @click="dialogVisible = false">取消</el-button>
             </el-row>
         </el-dialog>
+        <el-backtop target=".el-main"></el-backtop>
     </div>
 </template>
 
