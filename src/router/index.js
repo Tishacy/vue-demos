@@ -51,11 +51,6 @@ export default new Router({
           name: 'element-ui',
           component: () => import('@/pages/demo/element-ui/ElementUI')
         },
-        {
-          path: 'manage',
-          name: 'manage',
-          component: () => import('@/pages/demo/manage/Manage')
-        }
       ]
     },
     // {

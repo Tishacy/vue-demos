@@ -187,6 +187,6 @@ export default {
     .chart
         margin 0 auto
         width 80%
-        height 35rem
+        height 30rem
         
 </style>

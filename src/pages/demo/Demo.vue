@@ -1,13 +1,14 @@
 <template>
-    <el-container>
+    <el-container class="main">
         <el-header>
-            <home-header></home-header>
+            <home-header class="home-header"></home-header>
         </el-header>
         <el-container>
             <el-aside :width="asideWidth + 'px'">
-                <side-nav></side-nav>
+                <!-- <side-nav class="side-nav"></side-nav> -->
+                <router-view></router-view>
             </el-aside>
-            <el-main>
+            <el-main ref="demoMain">
                 <button @click="toggleAside" class="contentsBtn iconfont">
                     &#xe62d;
                 </button>
@@ -29,7 +30,13 @@ export default {
     },
     methods: {
         toggleAside () {
-            this.asideWidth = (this.asideWidth === 320)? 0 : 320
+            if (this.asideWidth === 320) {
+                this.asideWidth = 0;
+                this.$refs.demoMain.$el.style.paddingLeft = '0px'
+            } else {
+                this.asideWidth = 320;
+                this.$refs.demoMain.$el.style.paddingLeft = '320px'
+            }
         }
     },
     components: {
@@ -40,32 +47,37 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-    .el-header
-        padding 0
-    .el-main
-        height 824px
-        // min-width 800px
-        // box-shadow 0 0 30px 10px #eee
-        border 1px solid #eee
-    .el-aside
-        height 824px
-        max-width 20%
-        transition all .2s ease
-    .contentsBtn
-        position fixed
-        width 4rem
-        height 4rem
-        padding 1rem
-        border 1px solid #DCDFE6
-        border-radius .4rem
-        color #606266
-        outline none 
-        cursor pointer
-        transition .1s
-    .contentsBtn:hover
-            color: #409EFF;
-            border-color: #c6e2ff;
-            background-color: #ecf5ff;
+    .main
+        background-color #eee
+        .el-header
+            padding 0
+            height 100%
+            .home-header
+                position fixed
+        .el-aside
+            background-color #fff
+            position fixed
+            top 6rem
+            bottom 0
+            transition all .2s ease
+        .el-main
+            transition all .2s ease
+            .contentsBtn
+                position fixed
+                margin-left 1rem
+                width 4rem
+                height 4rem
+                padding 1rem
+                border 1px solid #DCDFE6
+                border-radius .4rem
+                color #606266
+                outline none 
+                cursor pointer
+                transition .1s
+            .contentsBtn:hover
+                    color: #409EFF;
+                    border-color: #c6e2ff;
+                    background-color: #ecf5ff;
 
 
 

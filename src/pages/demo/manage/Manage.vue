@@ -3,14 +3,14 @@
         <el-container>
             <el-aside width="20%" style="min-width: 140px; height: 100%">
                 <el-menu
-                    default-active="1"
+                    :default-active="$route.path"
                     background-color="#545c64"
                     text-color="#fff"
                     active-text-color="#ffd04b">
                     <el-menu-item 
                         v-for="item in menuItems"
-                        :key="item.index"
-                        :index="item.index">
+                        :key="item.router"
+                        :index="item.router">
                         <router-link 
                             :to="item.router" 
                             tag="div"
@@ -37,22 +37,22 @@ export default {
     data () {
         return {
             menuItems: [{
-                index: "1",
                 name: "图表展示",
                 router: "/manage/chart",
                 icon: "el-icon-pie-chart"
             },{
-                index: "2",
                 name: "表格",
                 router: "/manage/table",
                 icon: "el-icon-menu"
             },{
-                index: "3",
                 name: "图片列表",
                 router: "/manage/imageList",
                 icon: "el-icon-picture"
             }]
         }
+    },
+    mounted () {
+        console.log(this.$route);
     }
 }
 </script>
