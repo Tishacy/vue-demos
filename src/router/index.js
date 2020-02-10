@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Home from '@/pages/home/Home'
-import HelloWorld from '@/pages/HelloWorld'
 
 Vue.use(Router)
 
@@ -12,13 +11,7 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
-    },
-    {
-      path: '/hello-world',
-      name: 'hello-world',
-      component: HelloWorld
-    },
-    {
+    },{
       path: '/manage',
       name: 'manage',
       component: () => import('@/pages/demo/manage/Manage'),
@@ -40,8 +33,11 @@ export default new Router({
           component: () => import('@/pages/demo/manage/components/ImageList')
         }
       ]
-    },
-    {
+    },{
+      path: '/map',
+      name: 'map',
+      component: () => import('@/pages/demo/map/Map')
+    },{
       path: '/demo',
       name: 'demo',
       component: () => import('@/pages/demo/Demo'),

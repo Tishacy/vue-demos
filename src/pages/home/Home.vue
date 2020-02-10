@@ -34,6 +34,10 @@ export default {
                 'name': 'Manage',
                 'url': '/manage',
                 'desc': '数据管理系统'
+            },{
+                'name': 'Map',
+                'url': '/map',
+                'desc': '地图demos'
             }],
             title: 'DAVC',
             str: 'Demos of Awesome Vue Components',
