@@ -9,10 +9,12 @@
                     <div class="esri-ui">
                         <div class="toggle-basemap-gallery esri-widget--button esri-widget esri-component" 
                             @click="toggleBasemapGallery"
-                            title="Toggle basemap gallery">BG</div>
+                            title="Toggle basemap gallery"
+                            v-show="showBasemapGalleryButton">BG</div>
                         <div class="toggle-sketch esri-widget--button esri-widget esri-component"
                             @click="toggleSketchWidget"
-                            title="Toggle sketch widget">SW</div>
+                            title="Toggle sketch widget"
+                            v-show="showSketchWidgetButton">SW</div>
                         <div class="custom-attribution esri-attribution">{{ mapAttribution }}</div>
                         <div id="coordsWidget" class="esri-widget esri-component">{{ coordsInfo }}</div>
                     </div>
@@ -30,8 +32,10 @@ export default {
         return {
             mapAttribution: 'Made by Tishacy',
             showBasemapGallery: false,
+            showBasemapGalleryButton: false,
             showSketchWidget: false,
-            coordsInfo: "asdf",
+            showSketchWidgetButton: false,
+            coordsInfo: "",
             view: null,
             map: null,
         }
@@ -49,13 +53,12 @@ export default {
                 "esri/widgets/BasemapToggle",
                 "esri/widgets/BasemapGallery",
                 "esri/widgets/Sketch",
-                "esri/widgets/Editor",
                 "esri/layers/FeatureLayer",
                 "esri/layers/GraphicsLayer"
             ], options)
             .then(([
                 Map, MapView, 
-                BasemapToggle, BasemapGallery, Sketch, Editor,
+                BasemapToggle, BasemapGallery, Sketch,
                 FeatureLayer, GraphicsLayer
             ]) => {
                 const map = Map({
@@ -222,20 +225,15 @@ export default {
                     }
                 })
 
-                // Editor widget
-                const editorWidget = new Editor({
-                    view: mapView
-                })
-
                 mapView.ui.add(basemapToggle, 'bottom-right')
                 mapView.ui.add(toggleBasemapGalleryButton, 'top-left')
                 mapView.ui.add(coordsWidget, 'bottom-right')
                 mapView.ui.add(sketchWidget, 'top-right')
                 mapView.ui.add(toggleSketchWidgetButton, 'top-left')
-                mapView.ui.add(editorWidget, 'top-right')
                 mapView.ui.add(basemapGallery, 'top-right')
                 this.updateCoordsInfo(this.view.center)
-
+                this.showBasemapGalleryButton = true
+                this.showSketchWidgetButton = true
             })
         },
         toggleBasemapGallery() {
