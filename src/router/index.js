@@ -38,6 +38,14 @@ export default new Router({
       name: 'map',
       component: () => import('@/pages/demo/map/Map')
     },{
+      path: '/arcmap',
+      name: 'arcmap',
+      component: () => import('@/pages/demo/arcmap/ArcMap')
+    },{
+      path: '/newmap',
+      name: 'newmap',
+      component: () => import('@/pages/demo/newmap/NewMap')
+    },{
       path: '/demo',
       name: 'demo',
       component: () => import('@/pages/demo/Demo'),

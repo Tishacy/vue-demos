@@ -38,6 +38,14 @@ export default {
                 'name': 'Map',
                 'url': '/map',
                 'desc': '地图demos'
+            },{
+                'name': 'ArcMap',
+                'url': '/arcmap',
+                'desc': '地图demos - 单例模式'
+            },{
+                'name': 'NewMap',
+                'url': '/newmap',
+                'desc': '地图demos - 父传子'
             }],
             title: 'DAVC',
             str: 'Demos of Awesome Vue Components',

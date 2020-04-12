@@ -7,16 +7,34 @@
             <el-main>
                 <div class="arcgis-api-for-js">
                     <div class="esri-ui">
-                        <div class="toggle-basemap-gallery esri-widget--button esri-widget esri-component" 
+                        <div id="toggle-basemap-gallery" 
+                            class="esri-widget--button esri-widget esri-component" 
                             @click="toggleBasemapGallery"
                             title="Toggle basemap gallery"
                             v-show="showBasemapGalleryButton">BG</div>
-                        <div class="toggle-sketch esri-widget--button esri-widget esri-component"
+                        <div id="toggle-sketch" 
+                            class="esri-widget--button esri-widget esri-component"
                             @click="toggleSketchWidget"
                             title="Toggle sketch widget"
                             v-show="showSketchWidgetButton">SW</div>
+                        <div id="toggle-filter"
+                            class="esri-widget--button esri-widget esri-compoenent"
+                            @click="toggleFilterWidget"
+                            title="Toggle filter"
+                            v-show="showFilterWidgetButton">F</div>
+
                         <div class="custom-attribution esri-attribution">{{ mapAttribution }}</div>
                         <div id="coordsWidget" class="esri-widget esri-component">{{ coordsInfo }}</div>
+                        <select id="filterWidget" 
+                            class="esri-widget esri-select" 
+                            v-show="showFilterWidget"
+                            ref="filterWidget">
+                            <option v-for="(expression, index) in filterExpressions" 
+                                :key="index" 
+                                :value="expression">
+                                {{expression}}
+                            </option>
+                        </select>
                     </div>
                 </div>
             </el-main>
@@ -36,8 +54,19 @@ export default {
             showSketchWidget: false,
             showSketchWidgetButton: false,
             coordsInfo: "",
+            filterExpressions: ["TRL_ID > 0", "TRL_ID = 0", "USE_BIKE = 'Yes'", "USE_BIKE = 'No'", "ELEV_GAIN < 1000", "ELEV_GAIN > 1000", "TRL_NAME = 'California Coastal Trail'"],
+            showFilterWidget: false,
+            showFilterWidgetButton: false,
             view: null,
             map: null,
+            layers: {
+                polygonShapeLayer: null,
+                lineShapeLayer: null,
+                pointShapeLayer: null,
+                graphicsLayer: null
+            },
+            graphicClass: null,
+            geometryEngine: null,
         }
     },
     methods: {
@@ -54,18 +83,21 @@ export default {
                 "esri/widgets/BasemapGallery",
                 "esri/widgets/Sketch",
                 "esri/layers/FeatureLayer",
-                "esri/layers/GraphicsLayer"
+                "esri/layers/GraphicsLayer",
+                "esri/Graphic",
+                "esri/geometry/geometryEngine"
             ], options)
             .then(([
                 Map, MapView, 
                 BasemapToggle, BasemapGallery, Sketch,
-                FeatureLayer, GraphicsLayer
+                FeatureLayer, GraphicsLayer, Graphic,
+                geometryEngine
             ]) => {
-                const map = Map({
+                const map = new Map({
                     basemap: 'topo-vector',
                 })
                 this.map = map
-                const mapView = MapView({
+                const mapView = new MapView({
                     container: document.getElementsByClassName('arcgis-api-for-js')[0],
                     map: map,
                     center: [-118.80500, 34.02700],
@@ -85,10 +117,12 @@ export default {
                     nextBasemap: 'hybrid'
                 })
 
-                // control the display of BasemapGallery widget
-                const toggleBasemapGalleryButton = document.getElementsByClassName('toggle-basemap-gallery')[0]
-                const toggleSketchWidgetButton = document.getElementsByClassName('toggle-sketch')[0]
+                // Custom widgets
+                const toggleBasemapGalleryButton = document.getElementById('toggle-basemap-gallery')
+                const toggleSketchWidgetButton = document.getElementById('toggle-sketch')
                 const coordsWidget = document.getElementById("coordsWidget")
+                const filterWidget = document.getElementById("filterWidget")
+                const toggleFilterWidgetButton = document.getElementById('toggle-filter')
 
                 // BasemapGallery widget
                 const basemapGallery = new BasemapGallery({
@@ -118,12 +152,13 @@ export default {
                     opacity: .4
                 })
                 map.add(polygonShapeLayer)
+                this.layers['polygonShapeLayer'] = polygonShapeLayer
 
                 // Polylines shape layer
                 const lineShapeLayer = new FeatureLayer({
                     url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0",
                     // query features with sql 
-                    definitionExpression: "USE_BIKE = 'YES'",
+                    // definitionExpression: "USE_BIKE = 'YES'",
                     // render the feature itself
                     renderer: {
                         type: "simple",
@@ -166,6 +201,7 @@ export default {
                     }
                 })
                 map.add(lineShapeLayer)
+                this.layers['lineShapeLayer'] = lineShapeLayer
 
                 // Points shape layer
                 const pointShapeLayer = new FeatureLayer({
@@ -199,10 +235,12 @@ export default {
                     }]
                 })
                 map.add(pointShapeLayer)
+                this.layers['pointShapeLayer'] = pointShapeLayer
 
                 // Graphics layer
                 const graphicsLayer = new GraphicsLayer()
                 map.add(graphicsLayer)
+                this.layers['graphicsLayer'] = graphicsLayer
                 
                 // Sketch widget
                 const sketchWidget = new Sketch({
@@ -230,10 +268,33 @@ export default {
                 mapView.ui.add(coordsWidget, 'bottom-right')
                 mapView.ui.add(sketchWidget, 'top-right')
                 mapView.ui.add(toggleSketchWidgetButton, 'top-left')
+                mapView.ui.add(filterWidget, 'top-right')
+                mapView.ui.add(toggleFilterWidgetButton, 'top-left')
                 mapView.ui.add(basemapGallery, 'top-right')
                 this.updateCoordsInfo(this.view.center)
                 this.showBasemapGalleryButton = true
                 this.showSketchWidgetButton = true
+                this.showFilterWidgetButton = true
+
+                // 遍历 lines (featureLayer) 中的 feature
+                // 使用 geometryEngine 画 buffer
+                // lineShapeLayer.queryFeatures()
+                // .then(res => res.features)
+                // .then(features => {
+                //     console.log(features)
+                //     features.forEach((elem) => {
+                //         const geom = elem.geometry
+                //         const buffer = geometryEngine.buffer(geom, .25, 'miles') // 欧式（平面）缓冲区
+                //         const geodesicBuffer = geometryEngine.geodesicBuffer(geom, .25, 'miles')  // 测地线（椭球）缓冲区
+                //         this.drawGraphic(buffer)
+                //         this.drawGraphic(geodesicBuffer)
+                //     })
+                // })
+
+                // 根据鼠标移动来显示缓冲区
+                this.graphicClass = Graphic
+                this.geometryEngine = geometryEngine
+                this.showBuffer(.5)
             })
         },
         toggleBasemapGallery() {
@@ -246,6 +307,12 @@ export default {
             const sketchWidget = document.getElementsByClassName('esri-sketch')[0]
             sketchWidget.style.display = this.showSketchWidget? "none" : "block"
             this.showSketchWidget = !this.showSketchWidget
+        },
+        toggleFilterWidget() {
+            const filterWidget = this.$refs['filterWidget']
+            filterWidget.addEventListener('change', (e) => this.setFeatureLayerViewFilter(e.target.value))
+            filterWidget.style.display = this.showFilterWidget? "none" : "block"
+            this.showFilterWidget = !this.showFilterWidget
         },
         createFillSymbol(value, color) {
             return {
@@ -265,6 +332,65 @@ export default {
             this.coordsInfo = "Lat/Lon " + pt.latitude.toFixed(3) + " " + pt.longitude.toFixed(3) +
             " | Scale 1:" + Math.round(this.view.scale) +
             " | Zoom " + this.view.zoom;
+        },
+        setFeatureLayerViewFilter(expression) {
+            const featureLayer = this.layers['lineShapeLayer']
+            this.view.whenLayerView(featureLayer)
+            .then((featureLayer) => {
+                featureLayer.effect = {
+                    filter: {
+                        where: expression
+                    },
+                    excludedEffect: "opacity(50%)"
+                }
+            })
+        },
+        findNearestGraphic(event, layerName) {
+            const _this = this
+            return _this.view.hitTest(event).then(resp => {
+                let activeGraphic;
+                if (resp.results.length) {
+                    const resOnLayer = resp.results.filter(function (result) {
+                        return (result.graphic.layer === _this.layers[layerName])
+                    })
+                    if (resOnLayer.length) {
+                        activeGraphic = resOnLayer[0].graphic
+                    } else {
+                        activeGraphic = null
+                    }
+                } else {
+                    activeGraphic = null
+                }
+                return activeGraphic
+            })
+            // .catch(err => console.log(err)) 
+        },
+        drawGraphic(geometry) {
+            const newGraphic = new this.graphicClass({
+                geometry,
+                symbol: {
+                    type: "simple-fill",
+                    color: "rgba(0,0,0,0.15)",
+                    outline: {
+                        color: "rgba(0,0,0,.5)",
+                        width: 1
+                    }
+                }
+            })
+            this.layers['graphicsLayer'].add(newGraphic)
+        },
+        showBuffer(dist) {
+            this.view.on("pointer-move", (event) => {
+                this.findNearestGraphic(event, 'lineShapeLayer')
+                .then((graphic) => {
+                    this.layers['graphicsLayer'].removeAll();
+                    if (graphic) {
+                        const buffer = this.geometryEngine.buffer(graphic.geometry, dist, 'kilometers')
+                        this.drawGraphic(buffer)
+                    }
+                })
+                .catch(err => console.log(err))
+            })
         }
     },
     mounted() {
@@ -314,4 +440,9 @@ export default {
                         color #777
                     #coordsWidget
                         padding .7rem 1.5rem .5rem
+                    #filterWidget
+                        width 275px
+                        font-family Avenir Next W00
+                        font-size 1.4rem
+                        color #323232
 </style>
