@@ -56,7 +56,11 @@ export default new Router({
           component: () => import('@/pages/demo/element-ui/ElementUI')
         },
       ]
-    },
+    },{
+      path: '/coronamap',
+      name: 'coronamap',
+      component: () => import('@/pages/demo/coronamap/CoronaMap')
+    }
     // {
     //   path: '/demo/element-ui',
     //   name: 'element-ui',
