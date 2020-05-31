@@ -24,7 +24,7 @@ import CoordsWidget from './components/CoordsWidget'
 import LocateWidget from './components/LocatWidget'
 
 // 导出 ArcMap 组件
-export default {    
+export default {
     name: 'ArcMap',
     data() {
         return {
@@ -59,6 +59,7 @@ export default {
 
 <style lang="stylus" scoped>
     @import "https://js.arcgis.com/4.14/esri/css/main.css"
+    
     #mapContainer
     >>> *:focus
         outline none

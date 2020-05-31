@@ -46,6 +46,10 @@ export default {
                 'name': 'NewMap',
                 'url': '/newmap',
                 'desc': '地图demos - 父传子'
+            },{
+                'name': 'Leaflet',
+                'url': '/leaflet',
+                'desc': 'Leaflet map demos'
             }],
             title: 'DAVC',
             str: 'Demos of Awesome Vue Components',
@@ -122,4 +126,5 @@ export default {
                 font-size 1.6rem
                 border 1px solid #eee
                 border-radius .6rem
+                cursor pointer
 </style>

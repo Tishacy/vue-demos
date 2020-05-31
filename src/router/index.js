@@ -60,6 +60,10 @@ export default new Router({
       path: '/coronamap',
       name: 'coronamap',
       component: () => import('@/pages/demo/coronamap/CoronaMap')
+    },{
+      path: '/leaflet',
+      name: 'leaflet',
+      component: () => import('@/pages/demo/leafletmap/LeafletMap')
     }
     // {
     //   path: '/demo/element-ui',

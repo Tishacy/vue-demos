@@ -14,7 +14,8 @@ export default {
     data() {
         return {
             options: {
-                url: "https://js.arcgis.com/4.14/"
+                // url: "https://js.arcgis.com/4.14/",
+                url: "http://10.75.69.201/arcgis_js_api/library/3.19/init.js"
             },
             tmap: {
                 map: null,
@@ -25,12 +26,27 @@ export default {
     },
     mounted() {
         const _this = this
+        // 3.x
+        // esriLoader.loadModules(['esri/map'], this.options)
+        // .then(([Map]) => {
+        //     _this.tmap.map = new Map('mapContainer', {
+        //         basemap: 'streets-night-vector',
+        //         zoom: 6,
+        //         center: [119.572, 31,244],
+        //         logo: false,
+        //         slider: false,
+        //         showLabels: true
+        //     })
+        // })
+        // _this.tmap.ready = true
+
 
         // 4.x
         esriLoader.loadModules(['esri/Map', 'esri/views/MapView'])
         .then(([Map, MapView]) => {
             _this.tmap.map = new Map({
-                basemap: 'satellite'
+                // basemap: 'satellite',
+                basemap: 'streets-night-vector'
             })
             _this.tmap.mapView = new MapView({
                 container: 'mapContainer',
@@ -41,7 +57,7 @@ export default {
                 center: [119.572, 31.244],
                 logo: false, 
                 slider:false,
-                // showLabels : true
+                showLabels : true
             })
             _this.tmap.ready = true
         })
